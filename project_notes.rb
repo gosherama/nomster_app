@@ -1,4 +1,6 @@
 ##NOMSTER##
+rails v.5.0.6
+ruby v2.3.1
 
 #! interesting stuff
 #? Questions/check
@@ -14,5 +16,22 @@
       rails server -b 0.0.0.0 -p 3000
 #* Setting up webdev pipeline
   # Set up Git
-    #! create a new SSH key
+    #? SSH key management
   # Set up Github
+
+#* Deploying to heroku
+  # heroku create nomster-alex-app
+  # git push heroku master
+  # heroku apps:info
+  #TODO: check basic Heroku ninja course
+
+#* Wireframing
+
+#* First page
+  # create controller
+    rails generate controller places
+    #! Rails assumes the controller names are the plural form of the words.
+    # add index action
+  # update route
+    root 'places#index'
+  # create index.html.erb file and add h1
