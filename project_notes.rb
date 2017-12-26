@@ -53,9 +53,36 @@ ruby v2.3.1
   # update index view ---> Retrieve all places
   # Push to production
       # heroku rake db:migrate
-      # heroku run console
-  
+      # heroku run console ---> create a new place -- test ok
+
+#* Bootstrap
+  #TODO: Review v4 documentation - https://v4-alpha.getbootstrap.com/
+  #* bootstrap-rubygem gem https://github.com/twbs/bootstrap-rubygem
+  # update gemfile & run bundle install
+=begin       gem 'popper_js', '~> 1.11.1'
+      gem 'bootstrap', '4.0.0.alpha6'
+
+      source 'https://rails-assets.org' do
+        gem 'rails-assets-tether', '>= 1.3.3'
+      end
+ =end 
+      # restart server
+      # rename application.scss
+      # create master.scss
+        @import "bootstrap";
+      # update application.js
+        to include popper, tether, and bootstrap-sprockets between turbolinks and require_tree . 
+        #! Order of this code is important. 
+        popper must be placed between turbolinks and tether.
       
+#* Navigation
+      #* Add and edit navigation to application.html.erb - code from bootstrap
+#* Editing Index
+#TODO: GRID SYSTEM: https://v4-alpha.getbootstrap.com/layout/grid/
 
-
+#* Adding background patterns and fonts
+      #! http://subtlepatterns.com/
+      #! add image to body as background-image: url('round.png')
+      #! add background to navbar
+      # add shadow to navbar
 
