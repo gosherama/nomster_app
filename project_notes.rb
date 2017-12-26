@@ -23,6 +23,9 @@ ruby v2.3.1
   # heroku create nomster-alex-app
   # git push heroku master
   # heroku apps:info
+  #! https://nomster-alex-app.herokuapp.com/
+  # heroku run rake db:migrate
+  # heroku restart
   #TODO: check basic Heroku ninja course
 
 #* Wireframing------------------------------
@@ -47,6 +50,12 @@ ruby v2.3.1
 #* Listing places on index page
   # update controller - index
       # @places = Place.all
-  # update index view
-      # <%= @places.inspect %>
+  # update index view ---> Retrieve all places
+  # Push to production
+      # heroku rake db:migrate
+      # heroku run console
+  
+      
+
+
 
