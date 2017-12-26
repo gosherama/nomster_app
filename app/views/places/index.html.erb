@@ -1,1 +1,8 @@
-<h1>Nomster/Alex -- Yet another awesome Web  !! </h1>
+<% @places.each do |place| %>
+  <h1><%= place.name %></h1>
+  <i><%= place.address %></i>
+  <p><%= place.description %></p>
+<% end %>
+
+
+

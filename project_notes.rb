@@ -11,9 +11,9 @@ ruby v2.3.1
   # rails new nomster --database=postgresql
   # Adjust config/database.yml
   # create initial database
-      rake db:create
+      - rake db:create
   # test server
-      rails server -b 0.0.0.0 -p 3000
+      - rails server -b 0.0.0.0 -p 3000
 #* Setting up webdev pipeline----------------
   # Set up Git
     #? SSH key management
@@ -29,16 +29,24 @@ ruby v2.3.1
 
 #* First page-------------------------------
   # create controller
-    rails generate controller places
+    - rails generate controller places
     #! Rails assumes the controller names are the plural form of the words.
     # add index action
   # update route
-    root 'places#index'
+    - root 'places#index'
   # create index.html.erb file and add h1
 
 #* Setting model and DB for places-----------
   # generate model place & migration file
-    rails generate model place
-    update migration file & run migration
+    - rails generate model place
+    - update migration file & run migration
 
+    #! if correction needed: undo last migration rake db:rollback, adjust migration file & run migration again
+    #! caution if code pushed to Github / deployed to prod
+
+#* Listing places on index page
+  # update controller - index
+      # @places = Place.all
+  # update index view
+      # <%= @places.inspect %>
 
