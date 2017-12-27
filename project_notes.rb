@@ -6,6 +6,9 @@ ruby v2.3.1
 #? Questions/check
 #* structure
 #TODO
+#// 
+
+
 
 #* Create rails application-----------------
   # rails new nomster --database=postgresql
@@ -84,5 +87,10 @@ ruby v2.3.1
       #! http://subtlepatterns.com/
       #! add image to body as background-image: url('round.png')
       #! add background to navbar
-      # add shadow to navbar
+      # add box-shadow to navbar
+      # Update font stack
+        # simple font change - css font declaration
+        # google font
+          #! import in master.css
+          @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
 
