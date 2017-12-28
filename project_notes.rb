@@ -8,8 +8,6 @@ ruby v2.3.1
 #TODO
 #// 
 
-
-
 #* Create rails application-----------------
   # rails new nomster --database=postgresql
   # Adjust config/database.yml
@@ -93,4 +91,26 @@ ruby v2.3.1
         # google font
           #! import in master.css
           @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
+
+      #! push to Heroku -- Issue with image rendering
+        in environment/production.rb - added:
+          config.serve_static_assets = true
+          config.assets.compile = true
+
+#* Add pagination -  Will_paginate
+      # Add gem
+      # bundle install
+      # update controller places
+        - @places = Place.order("name").page(params[:page]).per_page(5)
+      # update index view page
+
+      #?: Could you please clarify where the .pagination class originates (refer screen shot pagination1.png). I assume this comes from the Bootstrap import. 
+      #?: if assumption is correct, how do I access the relevant stylesheet to amend the pagination style ? 
+      #?: I want to align the pagination and booyah-box width. Do you have recommendation ? 
+      #?: As it is, the pagination bar is not fixed which is sub-optimal and downright ugly when the page displays less than 5 elements. 
+      Any recommendation on how to fix this element ? (refer screenshot pagination2.png)
+
+
+      http://hopeful-liskov-fe3f88.netlify.com/admin/#/collections/pages
+      gosher123
 
