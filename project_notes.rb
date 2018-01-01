@@ -139,3 +139,55 @@ ruby v2.3.1
       end
   #! The place_params part is what pulls the values of name, description and address from the place form. 
   #! Then the Place.create is what actually sends the item to the database.
+
+  #* Add links and font awesome
+      # Brand link to root_path
+      # Link to new_place_path
+      # Font awesome
+        # gem "font-awesome-rails"
+        # master.scss --- @import "font-awesome";
+        #TODO:http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
+        #! integrate fontawesome icon in link
+          <%= link_to new_place_path , class:"nav-link" do %>
+            <i class= "fa fa-plus-circle"></i>
+            New Place
+          <% end %>
+        #! push to prod. ---> ok
+#* USER AUTHENTICATION - DEVISE
+          # install Devise & bundle install
+          # rails generate devise:install
+            ## STEP.1 Setting up default url options - mailer configuration
+              ### config/environments/development.rb
+              add config.action_mailer.default_url_options = { host: 'localhost:3030' }
+              We access our dev environment at localhost:3030 (in Vagrant) rather than 3000. 
+              So we need to adjust the host url to match our environment.
+
+              ### config/environments/production.rb --- adjust our production
+              #! adjust to match our heroku host
+              #! heroku apps:info --- to retrieve this information
+              config.action_mailer.default_url_options = { host: 'nomster-alex-app.herokuapp.com' }
+            
+            ## STEP.2 Setting up root url --- ok
+
+            ## STEP.3 Flash Messages
+            flash = is a place we can store messages we want to present the user, like notifications, alerts
+              #! refer Splurty 14
+              # Add flash to application.html.erb
+                <p class="notice"><%= notice %></p>
+                <p class="alert"><%= alert %></p>
+              # Add some bootstrap styling
+              #! The downside to the bootstrap styling - status boxes displayed even though there is no status to be displayed
+              # Solution - Conditional display logic
+                <% if notice.present? %>
+                  <p class="alert alert-info"><%= notice %></p>
+                <% end %>
+                <% if alert.present? %>
+                  <p class="alert alert-danger"><%= alert %></p>
+                <% end %>
+              
+              ## STEP.4 Generate Devise views
+                # rails generate devise:views
+              
+              ## STEP.5 Generate User model
+                # rails generate devise User
+                # rake db:migrate
