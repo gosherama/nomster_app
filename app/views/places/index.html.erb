@@ -1,13 +1,13 @@
 <% @places.each do |place| %>
-  <div class="booyah-box col-10 offset-1 ">
+  <div class="booyah-box col-10 offset-1 place-items">
     <h1><%= place.name %></h1>
     <i><%= place.address %></i><br /><br />
     <p><%= place.description %></p>
   </div>
 <% end %>
 
-<div class="row">
-  <div class=" col-10 offset-1 apple_pagination ">
+<div class="row places-pagination">
+  <div class=" col-10 offset-1 apple_pagination">
     <%= will_paginate @places %>
   </div>
 </div>

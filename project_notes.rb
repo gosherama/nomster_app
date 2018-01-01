@@ -110,7 +110,32 @@ ruby v2.3.1
       #?: As it is, the pagination bar is not fixed which is sub-optimal and downright ugly when the page displays less than 5 elements. 
       Any recommendation on how to fix this element ? (refer screenshot pagination2.png)
 
+#* Building form for place submission
+        # update places routes
+          - resources :places
+        # add new action in places controller
+        # create new.html.erb view
+        # Install simple_form
+          #! https://github.com/plataformatec/simple_form
+          # bundle install
+          # rails generate simple_form:install --bootstrap
+          # Create form
+          #! The browser doesn't know how to interpret things with simple form, because ruby 
+          #! converts the simple form inputs into regular HTML elements, that the browser does 
+          #! know how to interact with in the process of serving up the app.
 
-      http://hopeful-liskov-fe3f88.netlify.com/admin/#/collections/pages
-      gosher123
+#* Commit new places and save to DB
+  #First, store the place in DB , with the data the user entered.
+  #Second,send the user to root page
+  
+  # Add create action in controller
+    def create
+      Place.create(place_params)
+    end
 
+    private
+      def place_params
+        params.require(:place).permit(:name,:description,:address)
+      end
+  #! The place_params part is what pulls the values of name, description and address from the place form. 
+  #! Then the Place.create is what actually sends the item to the database.
