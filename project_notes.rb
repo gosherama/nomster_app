@@ -153,7 +153,7 @@ ruby v2.3.1
             New Place
           <% end %>
         #! push to prod. ---> ok
-#* USER AUTHENTICATION - DEVISE
+#* 16. USER AUTHENTICATION - DEVISE
           # install Devise & bundle install
           # rails generate devise:install
             ## STEP.1 Setting up default url options - mailer configuration
@@ -191,3 +191,69 @@ ruby v2.3.1
               ## STEP.5 Generate User model
                 # rails generate devise User
                 # rake db:migrate
+
+#* 17. Testing user login and adding user links to navbar
+  #TODO: check Devise documentation
+    #! before_filter :authenticate_user!  -->  to require that a user is authenticated before accessing a page
+    #! current_user --> access the current signed-in user
+    #! user_signed_in? --> check to see if a user is signed in
+  # Update Nav - Conditional links display - if user_signed_in?
+
+#* 18. Connect users to Places
+  # require that only users who are signed in can create a place. 
+  # Store information in the database to allow us to keep track of the user that created each specific place.
+
+  #STEP.1 - Only logged-in user can create Places
+  In our application we should allow anyone to view the places that we have in the database. 
+  However we should only allow users who are signed-in to add places to our application. 
+  This means in our application we should block the new and create actions to only be usable by signed-in 
+  (also known as authenticated) users.
+
+  #! before_action :authenticate_user! -- Before filters are code that executes before the code in our controller runs
+  #! before_action :authenticate_user!, only: [:new, :create]
+  # In this case we want to require a user to be logged in only for the new and create actions
+  # With the before filter implemented, anyone who is not logged-in will be redirected to the 
+  # login page when clicking on the 'New Place +' link in the top nav. 
+  # After the user is logged in, they're allowed to access the "New Place" page
+
+  #STEP.2 Store current userId on the Place model upon record creation
+  Now that users have to be signed in, to create a new place, we should store their User's id together with the place they created. 
+  That way we know which user created what place.
+  Up until now, our database tables were not linked to each other and were completely separated. 
+  Now we will change this and connect our places and users database tables. 
+  This is one of the most powerful features of SQL (the language of databases). 
+  We will be able to reference a record in one table in an entirely different table
+
+  So how will we do that? We're going to need to start by creating another column in the places database table. 
+  Anytime we want to create new columns in our database, we need a migration
+  #! rails generate migration alter_places_add_user_id_column
+  #! update migration 
+    add_colum :places, :user_id, :integer
+    add_index :places, :user_id #Best practice to add index col to fasten lookup process
+  
+  #STEP.3 Connecting places to users - DB Association
+    #Update models with association
+      # place: belongs_to :user
+      # user: has_many :places
+    #Now we have access to lookups
+      User.first.places
+      Place.first.user
+    #Update places controller -- "create a place that is connected with this user",
+      def create
+        current_user.places.create(places_params)
+      end
+      This is something that we're allowed to do because we said in our user.rb model that it has_many :places, 
+        so it knows these two things are linked up and rails magic like this can happen
+    #Add user email to index page - conditional display
+        <% @places.each do |place| %>
+          <div class="booyah-box col-10 offset-1 place-items">
+            <h1><%= place.name %></h1>
+            <i><%= place.address %></i><br /><br />
+            <p><%= place.description %></p>
+            #!<% if place.user.present? %>
+              <small><%= place.user.email %></small>
+            <% end %>
+          </div>
+        <% end %>
+    # Update places table with user_id information
+      #! Place.where(user_id: nil).update_all(user_id: User.first.id)
