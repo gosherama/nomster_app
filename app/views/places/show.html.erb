@@ -7,8 +7,8 @@
   <div class="float-right">
     <% if current_user && current_user == @place.user %>
       <%= link_to 'Edit', edit_place_path(@place), class:'btn btn-outline-warning' %>
+      <%= link_to 'Delete', place_path(@place), method: :delete, data: { confirm: 'Are you sure ?'}, class: 'btn btn-outline-danger' %>
     <% end %>
-    <%= link_to 'Delete', place_path(@place), method: :delete, data: { confirm: 'Are you sure ?'}, class: 'btn btn-outline-danger' %>
   </div>
   <br class='clear' />
 </div>
