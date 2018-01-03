@@ -257,3 +257,55 @@ ruby v2.3.1
         <% end %>
     # Update places table with user_id information
       #! Place.where(user_id: nil).update_all(user_id: User.first.id)
+    #Push to production and create and update users
+
+#* 19.20 Styling Devise page
+  # Sign in
+  # Sign up
+  # pwd reset
+#*21. Places show page
+  #---> http://localhost:3030/places/1
+  Notice how in the URI pattern part, the url is matching URLs that look like this: 
+  /places/:id(.format). 
+  The :id part is telling us that the URL expects some data passed along in the URL and 
+  that it will call it the id. Add show action in places controller
+  The /1 maps to the /:id part of this place, essentially pulling out the id of the place 
+  from the database and using it as an identifier in the URL.
+          STEP 1. Create a page to show details of a single place
+          STEP 2. Add a link from the index page to our show page
+          STEP 3. Loading the place from the database
+            #we need to go back into our controller and tell our show action 
+            how to find the correct place by passing in the id of each place
+            def show
+              @place = Place.find(params[:id])
+            end
+            #! What params[:id] does is it looks inside the URL the user went to and tries to pull the id out of it.
+          STEP 4. Displaying the place on the page
+#*22. Allow user to edit place
+    # Update show page with 'Edit' link
+    # Update places controller - create edit action
+    # Create edit view and add form (from new view)
+#*23. Commit edit changes to DB
+    # Add update action
+    #! new --> Create
+    #! edit --> update (The code between the def update and the end will get executed when the user presses the button on the edit form.)
+    We should find the record the user wants to update.
+    We should update this record and save the changes the user specifies into our database.
+    We should send the user back to the root_path.
+              def update
+                @place = Place.find(params[:id])
+                @place.update_attributes(place_params)
+                redirect_to root_path
+              end
+
+    When we have one of the items in our database, we can call update_attributes on the item, and it will update each of the values of the fields accordingly. 
+    After it updates them, it will save the changes to the database.
+#*24. Delete Action
+    #Update show page
+    #Update controller
+#*25. Restricting user access to edit and delete actions
+    # add logic to showpage
+      if current_user && current_user == @place.user ---> if conditions met then display 'Edit'
+    #! Note to deal with direct url access to action
+        #1. update before_action :authenticate_user!, only: [:index,:create,:edit]
+
