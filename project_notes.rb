@@ -304,8 +304,31 @@ ruby v2.3.1
     #Update show page
     #Update controller
 #*25. Restricting user access to edit and delete actions
-    # add logic to showpage
+    # Edit -- add logic to showpage
       if current_user && current_user == @place.user ---> if conditions met then display 'Edit'
-    #! Note to deal with direct url access to action
+      #! Note to deal with direct url access to action
         #1. update before_action :authenticate_user!, only: [:index,:create,:edit]
-
+        only logged in users can trigger the edit action.
+        #2. The next task that we have is to make sure the user who created the place that they're trying to edit is logged in. 
+        This will add the real security to our application.
+          def edit
+            @place = Place.find(params[:id])
+            if @place.user != current_user
+              return render text: 'Not allowed', status: :forbidden
+            end
+          end
+    # Update
+          # update before_action: authenticate_user!
+          only logged in users can trigger the update action.
+          # update update action with conditional logic
+#*26. Restricting access to destroy action
+#*27.28. Validation
+#*29 Google Map
+    #Install Geocoder
+    #add lat and lng col to places table
+    #update model
+        geocoded_by :address
+        after_validation :geocode
+    #Implement Google API
+          AIzaSyBSzFESzjGluKKU-xXyPkLuFwLPamyjeoI
+      #Set up config/initializers/geocoder.rb

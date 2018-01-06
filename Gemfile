@@ -28,6 +28,8 @@ gem 'will_paginate', '~> 3.1', '>= 3.1.6'
 gem 'simple_form'
 gem "font-awesome-rails"
 gem 'devise'
+gem 'geocoder'
+gem 'figaro'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
