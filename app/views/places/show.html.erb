@@ -49,14 +49,16 @@
   <div class="clear"></div>
   <%= simple_form_for @comment, url: place_comments_path(@place) do |f| %>
     <%= f.input :message %>
-    <%= f.input :rating %>
+    <%= f.input :rating, as: :select, collection: Comment::RATINGS %>
     <%= f.submit "Add a Comment", class:"btn btn-outline-warning" %>
   <% end %>
   <h1>Comments</h1>
   <% @place.comments.each do |comment| %>
       <div>
       <blockquote>
-        <b><%= comment.rating %> -
+      <% if comment.humanized_rating.present? %>
+          <b><%= comment.humanized_rating %> -
+      <% end %>
         <%= comment.message %>
         <small><%= comment.user.email %></small>
       </blockquote>
