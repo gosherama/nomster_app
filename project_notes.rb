@@ -1,4 +1,4 @@
-##NOMSTER##
+##FIREHOSE - NOMSTER APPLICATION - JANUARY 2018##
 rails v.5.0.6
 ruby v2.3.1
 
@@ -8,11 +8,12 @@ ruby v2.3.1
 #TODO
 #// 
 
-#* Create rails application-----------------
+#*1.GETTING STARTED -----------------
   # rails new nomster --database=postgresql
   # Adjust config/database.yml
   # create initial database
       - rake db:create
+      - rake db:migrate
   # test server
       - rails server -b 0.0.0.0 -p 3000
 #* Setting up webdev pipeline----------------
@@ -27,7 +28,6 @@ ruby v2.3.1
   #! https://nomster-alex-app.herokuapp.com/
   # heroku run rake db:migrate
   # heroku restart
-  #TODO: check basic Heroku ninja course
 
 #* Wireframing------------------------------
 
@@ -323,7 +323,8 @@ ruby v2.3.1
           # update update action with conditional logic
 #*26. Restricting access to destroy action
 #*27.28. Validation
-#*29 Google Map
+
+#*9. ADDING GOOGLE MAP
     #Install Geocoder
     #add lat and lng col to places table
     #update model
@@ -332,3 +333,45 @@ ruby v2.3.1
     #Implement Google API
           AIzaSyBSzFESzjGluKKU-xXyPkLuFwLPamyjeoI
       #Set up config/initializers/geocoder.rb
+          # create geocoder.rb file
+          --->This file tells our Geocoder configuration that it should use the "google" geocoding service.
+          Geocoder.configure(
+              lookup: :google,
+              api_key: ENV['GEOCODER_API_KEY'],
+            )
+       #! You should also notice that we're going to put our API key 
+       in an ENV variable, instead of simply pasting the API key here.   
+       We're doing this because we don't want to show our personal API key to the world the next time we push our code up to GitHub
+       #!The next step is for us to allow our web application to know what the value of this API key is, without having it checked into our GitHub account.
+       It will be stored in an ENV or an environment variable both on our localhost and on heroku, because that's where sensitive data like this gets placed. 
+       In order to add values to the ENV on our localhost we're going to use a gem called Figaro.
+          # Install 'figaro'
+          # figaro install
+          --> The output indicates it did two things. 
+          First, it created config/application.yml and it also updated our .gitignore file.
+          The fact that this updated our .gitignore file is important. The .gitignore file tells git specifically NOT to keep track of certain files with git and GitHub. In this particular case it adds the file config/application.yml into the .gitignore, so we know that no one else can see it. 
+          Since this file will never end up on GitHub.com, it is safe to put our API keys into it.
+          #! store google API key in application.yml file
+          To summarize what we just did was store our secret API key in the application.yml and figaro makes it possible to pull out the value from the ENV. So ENV['GEOCODER_API_KEY'], 
+          will pull the specific value from application.yml on our localhost machine.
+          #! https://console.developers.google.com/apis/credentials?project=sonic-verbena-191015
+
+          #! heroku config:set GEOCODER_API_KEY="YOUR_API_KEY_HERE"
+
+#*30. Adding map to page
+
+#*SECTION 10. ADDING COMMENTS ---------------------------------
+  #SETTING UP DB AND MODELS ASSOCIATION
+    ## rails generate model comment
+      - update migration file
+          - add field for comments table (:message,:rating)
+          - add foreign_key to user_id & place_id
+          added a field that will point to the id of different tables in 
+          our database we want to connect the comment to
+          - add indexes to users and places tables
+  #Creating the relationship btw comments, places and users - Association - Update Models
+  We've created the model, and we need to tell rails how our comments are connected to the other tables in our application. 
+  In this case comments are connected to both the user and place.
+      - comment will belong_to both the User and Place
+      - User has_many comments
+      - Place has_many comments
