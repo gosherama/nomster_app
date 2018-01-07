@@ -52,5 +52,15 @@
     <%= f.input :rating %>
     <%= f.submit "Add a Comment", class:"btn btn-outline-warning" %>
   <% end %>
+  <h1>Comments</h1>
+  <% @place.comments.each do |comment| %>
+      <div>
+      <blockquote>
+        <b><%= comment.rating %> -
+        <%= comment.message %>
+        <small><%= comment.user.email %></small>
+      </blockquote>
+      </div>
+  <% end %>
 </div>
 
