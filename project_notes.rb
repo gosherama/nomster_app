@@ -375,3 +375,42 @@ ruby v2.3.1
       - comment will belong_to both the User and Place
       - User has_many comments
       - Place has_many comments
+  #Add a form to the individual place page
+      ##Step 1. Adjust placesController for comments
+      update show action
+      def show
+        @place = Place.find(params[:id])
+        @comment = Comment.new
+      end
+      ##Step 2. Add form to the show page
+        <%= simple_form_for @comment, url: '#' do |f| %>
+          <%= f.input :message %>
+          <%= f.input :rating %>
+          <%= f.submit "Add a Comment", class:"btn btn-outline-warning" %>
+        <% end %>
+      ##Step 3. Commit comment to DB
+        - Add a Comments controller
+        - Adjust routes for comments - Nested routes
+        #! we want to nest our comment route under the place route.
+        we need to be able to pass along the id of the place through the URL that we're using.
+        Another way to say this is that we want to nest our comment route under the place route.
+        Update routes.rb
+              resources :places do
+                resources :comments, only: :create
+              end 
+        By nesting the comment underneath the place, the URL for it will contain the place_id, 
+        which you will notice in a moment when you run rake routes.
+        #! place_comments POST   /places/:place_id/comments(.:format) comments#create
+        This hooked up a special routes that allows us to POST to the comments controller and also allows us 
+        to pass through a place_id, which we will use on our comments form.
+    ##Step 4. Adjusting the form
+    Adjust the form to include the URL that points to the place_comments_path
+      #! <%= simple_form_for @comment, url: place_comments_path(@place) do |f| %>
+    ##Step 5. Setting up the create action in comment controller
+    we need to add is a create action, which will save a new comment into the database.
+    Checklist
+      1. We want to make sure a user is logged in to access the comment form, if a user isn't logged in we should send them to the page to login.
+        #! before_action :authenticate_user!
+      2. Then we can load the associated place from the database.
+      3. We can then store the comment in the database. We should make sure it is properly associated with the place that the user is commenting on AS WELL AS the currently logged in user.
+      4. Finally, we should send the user back to the place detail page they created the comment on.s
